@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aprender · TypeQuest</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;700&family=Nunito:wght@400;600&display=swap">
+<style>
+:root{--azul:#3d8fe0;--azul2:#8ecbf5;--tinta:#1f3a5f;--texto:#5b6b7e;--oro:#f6c24a;--oro2:#fbd36b;--verde:#2fb67c;--rojo:#e5533d;--q:'Quicksand','Trebuchet MS',sans-serif;--n:'Nunito',system-ui,sans-serif}
+*{box-sizing:border-box;margin:0}
+body{min-height:100vh;font-family:var(--n);color:var(--tinta);background:linear-gradient(160deg,var(--azul2),#5fb0ee 45%,var(--azul)) fixed;overflow-x:hidden}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:3px solid var(--tinta);outline-offset:3px}
+.wrap{width:min(960px,92vw);margin:0 auto;padding-bottom:60px}
+header{display:flex;justify-content:space-between;align-items:center;padding:24px 0;color:#fff}
+.logo{font:700 1.8rem var(--q);color:#fff;text-decoration:none}
+.volver{color:#fff;font:600 1rem var(--q);text-decoration:none;border:1.5px solid #fff;border-radius:8px;padding:8px 16px}
+.volver:hover{background:#fff;color:var(--azul)}
+.panel{background:#fff;border-radius:24px;padding:28px;box-shadow:0 18px 40px rgba(20,60,120,.28)}
+h1{font:700 1.9rem var(--q);margin-bottom:4px}
+.sub{color:var(--texto);margin-bottom:18px}
+#chips{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px}
+#chips button{min-width:46px;height:46px;border-radius:12px;border:2px solid #cfe3f7;background:#f2f8ff;font:700 1rem var(--q);position:relative}
+#chips button.sel{background:var(--azul);border-color:var(--azul);color:#fff}
+#chips button:disabled{opacity:.4;cursor:not-allowed}
+#chips button small{position:absolute;bottom:-1px;left:0;right:0;font-size:.55rem;color:var(--oro);letter-spacing:-1px}
+.stats{display:flex;gap:12px;margin-bottom:16px}
+.stat{flex:1;background:#f2f8ff;border-radius:14px;padding:10px;text-align:center}
+.stat b{display:block;font:700 1.7rem var(--q)}.stat small{color:var(--texto)}
+.barra{height:12px;background:#e3eefb;border-radius:99px;overflow:hidden;margin-bottom:18px}
+#relleno{height:100%;width:0;background:linear-gradient(90deg,var(--azul2),var(--azul));transition:width .3s}
+.objetivo{display:flex;align-items:center;gap:18px;margin-bottom:14px}
+#letra{width:84px;height:84px;flex:none;display:grid;place-items:center;background:var(--oro2);border-radius:20px;font:700 2.4rem var(--q);box-shadow:0 6px 0 #d9a52b}
+#letra.cambia{animation:salto .35s}
+@keyframes salto{40%{transform:translateY(-12px) scale(1.1)}}
+#dedo{font-size:1.15rem;color:var(--texto)}#dedo b{color:var(--tinta)}
+.caja{background:#f2f8ff;border-radius:18px;padding:22px 26px;font:600 clamp(1.5rem,4vw,2.3rem)/1.8 ui-monospace,Consolas,monospace;letter-spacing:.12em;min-height:110px;display:flex;flex-wrap:wrap;margin-bottom:22px;word-break:break-all}
+.caja span{white-space:pre;color:#9db4cc;border-bottom:3px solid transparent}
+.caja .ok{color:var(--verde);animation:pop .25s}
+@keyframes pop{50%{transform:translateY(-7px) scale(1.2)}}
+.caja .cur{color:var(--tinta);border-color:var(--azul);animation:par 1s steps(1) infinite}
+@keyframes par{50%{border-color:transparent}}
+.caja .mal{color:var(--rojo);border-color:var(--rojo)}
+.temblor{animation:temblor .2s}@keyframes temblor{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+#teclado{display:flex;flex-direction:column;align-items:center;gap:7px}
+.fila{display:flex;gap:7px}
+.k{display:grid;place-items:center;width:clamp(26px,6vw,50px);height:clamp(32px,7vw,50px);border-radius:9px;background:#fff;border:2px solid #cfe3f7;box-shadow:0 4px 0 #b9d3ee;font:700 .9rem var(--q);color:var(--texto);transition:transform .08s,box-shadow .08s}
+.k.sig{background:var(--oro2);border-color:var(--oro);color:var(--tinta);box-shadow:0 4px 0 #d9a52b}
+.k.bien{background:#b8ecd3;transform:translateY(4px);box-shadow:0 0 0}
+.k.mal{background:#f7b8ad;animation:temblor .2s}
+.k.esp{width:clamp(150px,36vw,320px)}
+.res{position:fixed;inset:0;display:grid;place-items:center;padding:20px;background:rgba(20,45,85,.6);opacity:0;visibility:hidden;transition:.3s;z-index:9}
+.res.on{opacity:1;visibility:visible}
+.tarjeta{background:#fff;border-radius:26px;padding:34px;width:min(420px,100%);text-align:center;transform:scale(.85) translateY(30px);transition:transform .45s cubic-bezier(.2,1.4,.4,1)}
+.res.on .tarjeta{transform:none}
+.estrellas{font-size:3rem;letter-spacing:6px;margin-bottom:6px}
+.estrellas span{display:inline-block;color:#dbe6f3;transform:scale(0)}
+.res.on .estrellas span{animation:estrella .5s forwards;animation-delay:calc(var(--i)*.25s + .25s)}
+.estrellas span.on{color:var(--oro)}
+@keyframes estrella{60%{transform:scale(1.4) rotate(12deg)}to{transform:scale(1)}}
+.tarjeta h2{font:700 1.8rem var(--q);margin-bottom:6px}.tarjeta p{color:var(--texto);margin-bottom:22px}
+.btn{border:0;border-radius:10px;padding:14px 30px;font:700 1.05rem var(--q);color:#5a3d00;background:linear-gradient(var(--oro2),var(--oro));box-shadow:0 4px 0 #d9a52b;transition:transform .12s,box-shadow .12s}
+.btn:hover{transform:translateY(-2px)}.btn:active{transform:translateY(4px);box-shadow:0 0 0}
+.btn.alt{background:#eef5fd;color:var(--tinta);box-shadow:0 4px 0 #cfe0f4;margin-left:8px}
+@media(max-width:600px){.panel{padding:18px}.stats{gap:8px}#letra{width:64px;height:64px;font-size:1.8rem}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header><a class="logo" href="index.html">TypeQuest</a><div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap"><a class="volver" href="velocidad.html">Velocidad</a><a class="volver" href="perfil.html">Mi perfil</a><span data-cuenta></span><a class="volver" href="index.html">← Volver al inicio</a></div></header>
+
+  <main class="panel">
+    <h1>Aprende a escribir sin mirar el teclado</h1>
+    <p class="sub">Completa cada lección con al menos 80% de precisión para desbloquear la siguiente.</p>
+    <div id="chips"></div>
+
+    <div class="stats">
+      <div class="stat"><b id="vL">1</b><small>lección</small></div>
+      <div class="stat"><b id="vW">0</b><small>palabras por minuto</small></div>
+      <div class="stat"><b id="vP">100%</b><small>precisión</small></div>
+    </div>
+    <div class="barra"><div id="relleno"></div></div>
+
+    <div class="objetivo"><div id="letra" aria-hidden="true">F</div><p id="dedo"></p></div>
+    <div class="caja" id="caja" aria-live="off"></div>
+    <div id="teclado" aria-hidden="true"></div>
+  </main>
+</div>
+
+<div class="res" id="res" role="dialog" aria-modal="true" aria-labelledby="rT">
+  <div class="tarjeta">
+    <div class="estrellas" aria-hidden="true"><span style="--i:0">★</span><span style="--i:1">★</span><span style="--i:2">★</span></div>
+    <h2 id="rT"></h2><p id="rD"></p>
+    <button class="btn" id="rB"></button><button class="btn alt" id="rR">Repetir</button>
+  </div>
+</div>
+
+<script>
+const $ = (s) => document.querySelector(s);
+const LECC = [
+  "ffff jjjj fjfj fjfj",
+  "dddd kkkk dkdk fdjk",
+  "ssss llll slsl sdkl",
+  "aaaa asdf jkl asdf jkl",
+  "gggg hhhh ghgh fghj",
+  "eeee iiii eiei dede kiki",
+  "rrrr uuuu ruru frfr juju",
+  "tttt yyyy tyty frty juyt",
+  "oooo pppp opop lolo kpkp",
+  "qqqq wwww qwqw aqaw",
+  "zzzz xxxx cccc vvvv bbbb nnnn mmmm",
+  "casa mesa luz sol mar pan",
+  "hola mundo teclado escribir",
+  "el sol sale por la manana"
+];
+const MINIMO = 80;
+const DEDO = {};
+[["meñique izquierdo","qaz"],["anular izquierdo","wsx"],["medio izquierdo","edc"],["índice izquierdo","rfvtgb"],["índice derecho","yhnujm"],["medio derecho","ik"],["anular derecho","ol"],["meñique derecho","p"],["pulgares"," "]]
+  .forEach(([d, l]) => [...l].forEach((c) => (DEDO[c] = d)));
+
+let prog = 0, estrellas = [];
+try { const g = JSON.parse(localStorage.getItem("tq-aprender") || "{}"); prog = g.prog || 0; estrellas = g.estrellas || []; } catch {}
+const guardar = () => { try { localStorage.setItem("tq-aprender", JSON.stringify({ prog, estrellas })); } catch {} };
+
+let nl = Math.min(prog, LECC.length - 1), texto = "", idx = 0, err = 0, tot = 0, ini = 0, activo = false, spans = [], sigK = null;
+const teclas = {};
+
+["qwertyuiop", "asdfghjkl", "zxcvbnm"].forEach((f) => {
+  const r = document.createElement("div"); r.className = "fila";
+  [...f].forEach((c) => { const k = document.createElement("div"); k.className = "k"; k.textContent = c.toUpperCase(); teclas[c] = k; r.append(k); });
+  $("#teclado").append(r);
+});
+{ const r = document.createElement("div"); r.className = "fila"; const k = document.createElement("div"); k.className = "k esp"; teclas[" "] = k; r.append(k); $("#teclado").append(r); }
+
+const anima = (n, c) => { n.classList.remove(c); void n.offsetWidth; n.classList.add(c); };
+const flash = (k, c) => { const t = teclas[k]; if (!t) return; anima(t, c); setTimeout(() => t.classList.remove(c), 250); };
+
+function iniciar() {
+  idx = err = tot = ini = 0; activo = true;
+  $("#res").classList.remove("on");
+  $("#chips").replaceChildren(...LECC.map((_, i) => {
+    const b = document.createElement("button");
+    b.textContent = i + 1; b.disabled = i > prog; b.className = i === nl ? "sel" : "";
+    b.setAttribute("aria-label", `Lección ${i + 1}`);
+    if (estrellas[i]) { const s = document.createElement("small"); s.textContent = "★".repeat(estrellas[i]); b.append(s); }
+    b.onclick = () => { nl = i; iniciar(); };
+    return b;
+  }));
+  texto = LECC[nl];
+  $("#caja").replaceChildren(...[...texto].map((c) => { const s = document.createElement("span"); s.textContent = c; return s; }));
+  spans = [...$("#caja").children]; spans[0].className = "cur";
+  $("#vL").textContent = nl + 1; $("#relleno").style.width = "0%";
+  stats(); marcar();
+}
+function marcar() {
+  if (sigK) sigK.classList.remove("sig");
+  const c = texto[idx]; if (c === undefined) return;
+  sigK = teclas[c] || null; if (sigK) sigK.classList.add("sig");
+  $("#letra").textContent = c === " " ? "␣" : c.toUpperCase(); anima($("#letra"), "cambia");
+  $("#dedo").innerHTML = `Usa el dedo: <b>${DEDO[c] || "—"}</b>`;
+}
+function stats() {
+  $("#vP").textContent = (tot ? Math.round(((tot - err) / tot) * 100) : 100) + "%";
+  $("#vW").textContent = ini ? Math.round(idx / 5 / Math.max((Date.now() - ini) / 60000, 1 / 60)) : 0;
+}
+addEventListener("keydown", (e) => {
+  if (e.target.closest("input,textarea,dialog")) return;
+  if (!activo || e.ctrlKey || e.metaKey || e.altKey || e.key.length !== 1) return;
+  if (e.key === " ") e.preventDefault();
+  if (!ini) ini = Date.now();
+  const k = e.key.toLowerCase(); tot++;
+  if (k === texto[idx]) {
+    spans[idx].className = "ok"; idx++; flash(k, "bien");
+    $("#relleno").style.width = (idx / texto.length) * 100 + "%";
+    if (idx >= texto.length) { stats(); return fin(); }
+    spans[idx].className = "cur"; marcar();
+  } else { err++; spans[idx].classList.add("mal"); anima($("#caja"), "temblor"); flash(k, "mal"); }
+  stats();
+});
+function fin() {
+  activo = false;
+  const prec = tot ? Math.round(((tot - err) / tot) * 100) : 100, w = $("#vW").textContent;
+  const pasa = prec >= MINIMO, n = pasa ? (prec >= 95 ? 3 : prec >= 88 ? 2 : 1) : 0, ult = nl === LECC.length - 1;
+  if (pasa) { estrellas[nl] = Math.max(estrellas[nl] || 0, n); if (nl >= prog) prog = Math.min(nl + 1, LECC.length - 1); guardar();
+    try { const d = JSON.parse(localStorage.getItem("tq-dias") || "{}"), k = new Date().toLocaleDateString("sv-SE"); d[k] = (d[k] || 0) + 1; localStorage.setItem("tq-dias", JSON.stringify(d)); } catch {} }
+  document.querySelectorAll(".estrellas span").forEach((s, i) => s.classList.toggle("on", i < n));
+  $("#rT").textContent = !pasa ? "Casi lo logras" : ult ? "¡Completaste todo el curso!" : "¡Lección completada!";
+  $("#rD").textContent = pasa ? `${w} palabras por minuto · ${prec}% de precisión` : `Tuviste ${prec}% de precisión. Necesitas ${MINIMO}% para avanzar.`;
+  $("#rB").textContent = !pasa ? "Intentar de nuevo" : ult ? "Volver a empezar" : "Siguiente lección";
+  $("#rB").onclick = () => { nl = !pasa ? nl : ult ? 0 : nl + 1; iniciar(); };
+  $("#rR").hidden = !pasa; $("#rR").onclick = iniciar;
+  $("#res").classList.add("on"); $("#rB").focus();
+}
+iniciar();
+</script>
+<script>
+/* ===== Cuenta: registro, inicio de sesión y cerrar cuenta (se guarda en este navegador) ===== */
+(() => {
+  const K_U = "tq-usuarios", K_S = "tq-sesion";
+  const leer = (k, d) => { try { return JSON.parse(localStorage.getItem(k)) ?? d; } catch { return d; } };
+  const guardar = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch {} };
+  const hexA = (a) => [...a].map((b) => b.toString(16).padStart(2, "0")).join("");
+  async function hash(clave, sal) {
+    const enc = new TextEncoder(), k = await crypto.subtle.importKey("raw", enc.encode(clave), "PBKDF2", false, ["deriveBits"]);
+    return hexA(new Uint8Array(await crypto.subtle.deriveBits({ name: "PBKDF2", salt: enc.encode(sal), iterations: 120000, hash: "SHA-256" }, k, 256)));
+  }
+
+  const st = document.createElement("style");
+  st.textContent = `
+  [data-cuenta]{display:inline-flex;align-items:center;gap:14px;color:#fff;font:600 1rem 'Quicksand','Trebuchet MS',sans-serif}
+  .cq-link{background:none;border:0;color:inherit;font:inherit;cursor:pointer}.cq-link:hover{text-decoration:underline}
+  .cq-btn{background:none;color:inherit;font:inherit;cursor:pointer;border:1.5px solid #fff;border-radius:8px;padding:9px 18px;transition:background .15s,color .15s}
+  .cq-btn:hover{background:#fff;color:#3d8fe0}
+  #cq-dlg{margin:auto;border:0;border-radius:22px;padding:30px;width:min(400px,92vw);color:#1f3a5f;font-family:'Nunito',system-ui,sans-serif;box-shadow:0 24px 60px rgba(20,60,120,.4)}
+  #cq-dlg::backdrop{background:rgba(20,45,85,.6);backdrop-filter:blur(5px)}
+  #cq-dlg[open]{animation:cqabre .35s cubic-bezier(.2,1.2,.4,1)}
+  @keyframes cqabre{from{opacity:0;transform:translateY(24px) scale(.94)}}
+  #cq-dlg h3{font:700 1.7rem 'Quicksand',sans-serif;margin-bottom:16px}
+  #cq-dlg label{display:block;margin-bottom:14px;font-size:.9rem;color:#5b6b7e}
+  #cq-dlg input{display:block;width:100%;margin-top:6px;padding:12px 14px;border:2px solid #cfe3f7;border-radius:10px;font:inherit;color:#1f3a5f}
+  #cq-dlg input:focus{outline:none;border-color:#3d8fe0}
+  #cq-err{min-height:1.4em;margin-bottom:8px;color:#d4392b;font-size:.95rem}
+  #cq-dlg .cq-ok{width:100%;border:0;border-radius:10px;padding:14px;font:700 1.05rem 'Quicksand',sans-serif;color:#5a3d00;cursor:pointer;background:linear-gradient(#fbd36b,#f6c24a);box-shadow:0 4px 0 #d9a52b}
+  #cq-dlg .cq-ok:disabled{opacity:.6}
+  #cq-dlg .cq-sec{display:block;width:100%;margin-top:12px;background:none;border:0;color:#5b6b7e;text-decoration:underline;cursor:pointer;font:inherit}`;
+  document.head.append(st);
+
+  const dlg = document.createElement("dialog");
+  dlg.id = "cq-dlg";
+  dlg.innerHTML = `<form id="cq-form">
+    <h3 id="cq-t"></h3>
+    <label id="cq-lu"></label>
+    <label id="cq-lc" hidden>Correo<input name="correo" type="email" autocomplete="email" maxlength="80"></label>
+    <label>Contraseña<input name="clave" type="password" required minlength="6" autocomplete="current-password"></label>
+    <p id="cq-err" role="alert"></p>
+    <button class="cq-ok" id="cq-b"></button>
+    <button type="button" class="cq-sec" id="cq-sw"></button>
+    <button type="button" class="cq-sec" id="cq-x">Cancelar</button>
+  </form>`;
+  document.body.append(dlg);
+  const $ = (s) => dlg.querySelector(s);
+  let sesion = leer(K_S, null), registro = false;
+
+  const avisar = () => window.dispatchEvent(new CustomEvent("cuenta", { detail: sesion }));
+  function pintar() {
+    document.querySelectorAll("[data-cuenta]").forEach((box) => {
+      box.replaceChildren();
+      const mk = (clase, texto, fn) => { const b = document.createElement("button"); b.className = clase; b.textContent = texto; b.onclick = fn; return b; };
+      if (sesion) box.append(mk("cq-btn", "Cerrar cuenta", () => { sesion = null; try { localStorage.removeItem(K_S); } catch {} pintar(); avisar(); }));
+      else box.append(mk("cq-link", "Iniciar sesión", () => abrir(false)), mk("cq-btn", "Regístrate", () => abrir(true)));
+    });
+  }
+  function abrir(reg) {
+    registro = reg;
+    $("#cq-t").textContent = reg ? "Crea tu cuenta" : "Iniciar sesión";
+    $("#cq-lu").innerHTML = (reg ? "Usuario (3 a 20 letras, números o _)" : "Usuario o correo") + '<input name="usuario" required maxlength="60" autocomplete="username">';
+    $("#cq-lc").hidden = !reg; $("#cq-lc input").required = reg;
+    $("#cq-b").textContent = reg ? "Registrarme" : "Entrar";
+    $("#cq-sw").textContent = reg ? "Ya tengo cuenta" : "¿No tienes cuenta? Regístrate";
+    $("#cq-err").textContent = ""; $("[name=clave]").autocomplete = reg ? "new-password" : "current-password";
+    if (!dlg.open) dlg.showModal();
+  }
+  function entrar(nombre) { sesion = nombre; guardar(K_S, nombre); pintar(); dlg.close(); $("#cq-form").reset(); avisar(); }
+
+  $("#cq-sw").onclick = () => abrir(!registro);
+  $("#cq-x").onclick = () => dlg.close();
+  $("#cq-form").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const f = e.target.elements, usuario = f.usuario.value.trim(), clave = f.clave.value, b = $("#cq-b");
+    b.disabled = true; $("#cq-err").textContent = "";
+    try {
+      if (!(window.crypto && crypto.subtle)) throw new Error("Abre la página con Live Server (o desde localhost) para usar las cuentas.");
+      const lista = leer(K_U, []), min = (t) => t.toLowerCase();
+      if (registro) {
+        const correo = f.correo.value.trim();
+        if (!/^[a-zA-Z0-9_]{3,20}$/.test(usuario)) throw new Error("Usuario: 3 a 20 letras, números o _");
+        if (clave.length < 6) throw new Error("La contraseña necesita 6 caracteres o más");
+        if (lista.some((u) => min(u.usuario) === min(usuario) || min(u.correo) === min(correo))) throw new Error("Ese usuario o correo ya existe");
+        const sal = hexA(crypto.getRandomValues(new Uint8Array(16)));
+        lista.push({ usuario, correo, sal, hash: await hash(clave, sal) }); guardar(K_U, lista);
+        entrar(usuario);
+      } else {
+        const u = lista.find((x) => min(x.usuario) === min(usuario) || min(x.correo) === min(usuario));
+        if (!u || (await hash(clave, u.sal)) !== u.hash) throw new Error("Usuario o contraseña incorrectos");
+        entrar(u.usuario);
+      }
+    } catch (er) { $("#cq-err").textContent = er.message; }
+    b.disabled = false;
+  });
+
+  window.cuentaActual = () => sesion;
+  pintar(); avisar();
+})();
+</script>
+</body>
+</html>

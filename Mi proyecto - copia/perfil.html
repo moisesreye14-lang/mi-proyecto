@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mi perfil · TypeQuest</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;700&family=Nunito:wght@400;600&display=swap">
+<style>
+:root{--azul:#3d8fe0;--azul2:#8ecbf5;--tinta:#1f3a5f;--texto:#5b6b7e;--oro:#f6c24a;--oro2:#fbd36b;--verde:#2fb67c;--rojo:#e5533d;--q:'Quicksand','Trebuchet MS',sans-serif;--n:'Nunito',system-ui,sans-serif}
+*{box-sizing:border-box;margin:0}
+body{min-height:100vh;font-family:var(--n);color:var(--tinta);background:linear-gradient(160deg,var(--azul2),#5fb0ee 45%,var(--azul)) fixed;overflow-x:hidden}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:3px solid var(--tinta);outline-offset:3px}
+.wrap{width:min(960px,92vw);margin:0 auto;padding-bottom:60px}
+header{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;padding:24px 0;color:#fff}
+.logo{font:700 1.8rem var(--q);color:#fff;text-decoration:none}
+.menu{display:flex;align-items:center;gap:18px;flex-wrap:wrap;font:600 1rem var(--q)}
+.menu a{color:#fff;text-decoration:none}.menu a:hover{text-decoration:underline}
+.panel{background:#fff;border-radius:24px;padding:28px;box-shadow:0 18px 40px rgba(20,60,120,.28);margin-bottom:20px}
+h1{font:700 1.9rem var(--q);margin-bottom:4px}h2{font:700 1.4rem var(--q);margin-bottom:12px}
+.sub{color:var(--texto);margin-bottom:18px}
+.opc{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:16px}
+.tabs{display:inline-flex;gap:4px;padding:4px;border-radius:99px;background:#eef5fd}
+.tabs button{border:0;background:none;padding:8px 20px;border-radius:99px;font:700 .95rem var(--q)}
+.tabs button[aria-pressed=true]{background:var(--azul);color:#fff}
+.stats{display:flex;gap:12px;margin-bottom:16px;flex-wrap:wrap}
+.stat{flex:1;min-width:110px;background:#f2f8ff;border-radius:14px;padding:10px;text-align:center}
+.stat b{display:block;font:700 1.7rem var(--q)}.stat small{color:var(--texto)}
+.barra{height:12px;background:#e3eefb;border-radius:99px;overflow:hidden;margin-bottom:18px}
+.barra div{height:100%;width:0;background:linear-gradient(90deg,var(--azul2),var(--azul));transition:width .3s}
+.caja{position:relative;background:#f2f8ff;border-radius:18px;padding:20px 24px;font:600 1.5rem/1.9 ui-monospace,Consolas,monospace;height:220px;overflow:hidden;margin-bottom:20px;word-break:break-word}
+.caja span{color:#9db4cc;border-bottom:3px solid transparent;white-space:pre-wrap}
+.caja .ok{color:var(--verde)}.caja .cur{color:var(--tinta);border-color:var(--azul);animation:par 1s steps(1) infinite}.caja .mal{color:var(--rojo);border-color:var(--rojo)}
+@keyframes par{50%{border-color:transparent}}
+.temblor{animation:temblor .2s}@keyframes temblor{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.btn{border:0;border-radius:10px;padding:14px 30px;font:700 1.05rem var(--q);color:#5a3d00;background:linear-gradient(var(--oro2),var(--oro));box-shadow:0 4px 0 #d9a52b;transition:transform .12s,box-shadow .12s}
+.btn:hover{transform:translateY(-2px)}.btn:active{transform:translateY(4px);box-shadow:0 0 0}
+.btn.alt{background:#eef5fd;color:var(--tinta);box-shadow:0 4px 0 #cfe0f4;margin-left:8px}
+.aviso{background:#fff7dd;border:2px solid var(--oro);border-radius:14px;padding:12px 16px;margin-bottom:16px}
+ol{list-style:none}ol li{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid #e3eefb}ol li b{color:var(--azul)}
+.res{position:fixed;inset:0;display:grid;place-items:center;padding:20px;background:rgba(20,45,85,.6);opacity:0;visibility:hidden;transition:.3s;z-index:9}
+.res.on{opacity:1;visibility:visible}
+.tarjeta{background:#fff;border-radius:26px;padding:34px;width:min(440px,100%);text-align:center;transform:scale(.85) translateY(30px);transition:transform .45s cubic-bezier(.2,1.4,.4,1)}
+.res.on .tarjeta{transform:none}
+.tarjeta h2{font:700 1.8rem var(--q)}.tarjeta p{color:var(--texto);margin:6px 0 20px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:14px}
+.logro{background:#f2f8ff;border-radius:16px;padding:16px;text-align:center}
+.logro i{font-style:normal;font-size:2rem;display:block}.logro b{display:block;font:700 1rem var(--q)}.logro small{color:var(--texto)}
+.logro.off{opacity:.35;filter:grayscale(1)}
+.logro.on{animation:pop .6s both}@keyframes pop{50%{transform:scale(1.08)}}
+canvas{width:100%;height:200px;display:block}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+.compartir .redes{display:flex;gap:12px;flex-wrap:wrap}
+.red{width:56px;height:56px;border-radius:50%;border:0;display:grid;place-items:center;transition:transform .15s,box-shadow .15s;box-shadow:0 4px 10px rgba(20,60,120,.25)}
+.red:hover{transform:translateY(-4px) scale(1.07)}.red svg{width:27px;height:27px}
+.red.ig{background:linear-gradient(45deg,#feda75,#fa7e1e,#d62976,#962fbf,#4f5bd5)}.red.wa{background:#25d366}.red.fb{background:#1877f2}.red.x{background:#111}.red.cp{background:var(--azul)}
+#shImg{display:block;width:min(300px,100%);border-radius:18px;margin:4px 0 16px;box-shadow:0 8px 20px rgba(20,60,120,.25)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <a class="logo" href="index.html">TypeQuest</a>
+    <div class="menu"><a href="aprender.html">Aprender</a><a href="velocidad.html">Velocidad</a><a href="perfil.html">Mi perfil</a><span data-cuenta></span></div>
+  </header>
+
+  <div id="conCuenta">
+    <section class="panel">
+      <h1 id="nombre"></h1>
+      <p class="sub">Practica cada día para mantener tu racha. Tu progreso se guarda en este navegador.</p>
+      <div class="stats">
+        <div class="stat"><b id="sRacha">0</b><small>🔥 días de racha</small></div>
+        <div class="stat"><b id="sLecc">0/14</b><small>lecciones completas</small></div>
+        <div class="stat"><b id="sMejor">0</b><small>mejor ppm</small></div>
+        <div class="stat"><b id="sPart">0</b><small>pruebas de velocidad</small></div>
+      </div>
+      <p><b>Meta de hoy:</b> <span id="meta"></span></p>
+      <div class="barra" style="margin-top:8px"><div id="metaBarra"></div></div>
+      <a class="btn" href="aprender.html" style="text-decoration:none;display:inline-block">Practicar ahora</a>
+    </section>
+
+    <section class="panel">
+      <h2>📈 Tu velocidad</h2>
+      <canvas id="graf" aria-label="Palabras por minuto de tus últimas pruebas"></canvas>
+      <p class="sub" id="grafNota" style="margin:8px 0 0"></p>
+    </section>
+
+    <section class="panel"><h2>🏅 Logros</h2><div class="grid" id="logros"></div></section>
+
+  <section class="panel compartir" id="compartir">
+    <h2>📣 Comparte tu progreso</h2>
+    <p class="sub">Muestra tu racha, tu récord y tus lecciones a tus amigos.</p>
+    <img id="shImg" alt="Tarjeta con tu progreso para compartir">
+    <div class="redes" id="redes"></div>
+    <p class="sub" id="shMsg" role="status" style="margin:12px 0 0"></p>
+  </section>
+  </div>
+</div>
+
+<script>
+const $ = (s) => document.querySelector(s);
+const TOTAL = 14, META = 3;
+const fmt = (d) => d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
+const LOGROS = [
+  ["🌱", "Primer paso", "Completa tu primera lección", (d) => d.lecc >= 1],
+  ["⭐", "Perfecta", "Consigue 3 estrellas en una lección", (d) => d.tres >= 1],
+  ["🎓", "Curso completo", "Completa las 14 lecciones", (d) => d.lecc >= TOTAL],
+  ["⚡", "30 ppm", "Llega a 30 palabras por minuto", (d) => d.mejor >= 30],
+  ["🚀", "50 ppm", "Llega a 50 palabras por minuto", (d) => d.mejor >= 50],
+  ["🔥", "Racha de 3", "Practica 3 días seguidos", (d) => d.racha >= 3],
+  ["🏅", "Racha de 7", "Practica 7 días seguidos", (d) => d.racha >= 7],
+  ["🎯", "Constante", "Haz 10 pruebas de velocidad", (d) => d.partidas >= 10],
+];
+
+function racha(dias) {
+  const set = new Set(dias.map((x) => x.dia)), d = new Date();
+  if (!set.has(fmt(d))) d.setDate(d.getDate() - 1); // si hoy aún no practicas, la racha sigue viva hasta mañana
+  let n = 0; while (set.has(fmt(d))) { n++; d.setDate(d.getDate() - 1); }
+  return n;
+}
+
+function grafica(datos) {
+  const c = $("#graf"), r = window.devicePixelRatio || 1, w = c.clientWidth, h = c.clientHeight;
+  c.width = w * r; c.height = h * r;
+  const g = c.getContext("2d"); g.scale(r, r); g.clearRect(0, 0, w, h);
+  if (datos.length < 2) { $("#grafNota").textContent = "Haz al menos 2 pruebas de velocidad para ver tu gráfica."; return; }
+  $("#grafNota").textContent = `Últimas ${datos.length} pruebas.`;
+  const max = Math.max(...datos, 10) * 1.2, x = (i) => 16 + ((w - 32) * i) / (datos.length - 1), y = (v) => h - 16 - ((h - 32) * v) / max;
+  g.beginPath(); g.moveTo(x(0), h - 16); datos.forEach((v, i) => g.lineTo(x(i), y(v))); g.lineTo(x(datos.length - 1), h - 16); g.closePath();
+  g.fillStyle = "rgba(61,143,224,.18)"; g.fill();
+  g.beginPath(); datos.forEach((v, i) => (i ? g.lineTo(x(i), y(v)) : g.moveTo(x(i), y(v))));
+  g.strokeStyle = "#3d8fe0"; g.lineWidth = 3; g.lineJoin = "round"; g.stroke();
+  g.fillStyle = "#1f3a5f"; datos.forEach((v, i) => { g.beginPath(); g.arc(x(i), y(v), 4, 0, 7); g.fill(); });
+}
+
+const LS = (k, d) => { try { return JSON.parse(localStorage.getItem(k)) ?? d; } catch { return d; } };
+const GU = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch {} };
+function cargar() {
+  const est = LS("tq-aprender", {}).estrellas || [], vel = LS("tq-velocidad", []), dias = LS("tq-dias", {});
+  const ppms = vel.map((x) => x.ppm || 0), hoy = dias[fmt(new Date())] || 0;
+  const info = { lecc: est.filter(Boolean).length, tres: est.filter((e) => e === 3).length, mejor: Math.max(0, ...ppms), racha: racha(Object.keys(dias).map((dia) => ({ dia }))), partidas: vel.length };
+  $("#nombre").textContent = window.cuentaActual && window.cuentaActual() ? "Hola, " + window.cuentaActual() : "Tu progreso";
+  $("#sRacha").textContent = info.racha; $("#sLecc").textContent = `${info.lecc}/${TOTAL}`; $("#sMejor").textContent = info.mejor; $("#sPart").textContent = info.partidas;
+  $("#meta").textContent = hoy >= META ? "¡cumplida! 🎉" : `${hoy} de ${META} actividades (lecciones o pruebas)`;
+  $("#metaBarra").style.width = Math.min(100, (hoy / META) * 100) + "%";
+  $("#logros").replaceChildren(...LOGROS.map(([ico, nom, desc, ok]) => {
+    const e = document.createElement("div"); e.className = "logro " + (ok(info) ? "on" : "off");
+    e.innerHTML = `<i>${ico}</i><b>${nom}</b><small>${desc}</small>`; return e;
+  }));
+  grafica(ppms.slice(-20));
+}
+addEventListener("resize", cargar);
+addEventListener("cuenta", cargar);
+cargar();
+</script>
+<script>
+/* ===== Compartir en redes ===== */
+const shLeer = (k, d) => { try { return JSON.parse(localStorage.getItem(k)) ?? d; } catch { return d; } };
+const shDia = (d) => d.toLocaleDateString("sv-SE");
+function shResumen() {
+  const lecc = (shLeer("tq-aprender", {}).estrellas || []).filter(Boolean).length;
+  const vel = shLeer("tq-velocidad", []), set = new Set(Object.keys(shLeer("tq-dias", {}))), d = new Date();
+  if (!set.has(shDia(d))) d.setDate(d.getDate() - 1);
+  let racha = 0; while (set.has(shDia(d))) { racha++; d.setDate(d.getDate() - 1); }
+  return { racha, mejor: Math.max(0, ...vel.map((x) => x.ppm)), lecc };
+}
+const shTexto = (r) => `🔥 ${r.racha} días de racha · ⚡ récord de ${r.mejor} ppm · 🎓 ${r.lecc}/14 lecciones en TypeQuest. ¿Puedes superarme?`;
+function shTarjeta(r) {
+  const c = document.createElement("canvas"); c.width = c.height = 1080; const g = c.getContext("2d");
+  const f = g.createLinearGradient(0, 0, 1080, 1080); f.addColorStop(0, "#8ecbf5"); f.addColorStop(1, "#3d8fe0"); g.fillStyle = f; g.fillRect(0, 0, 1080, 1080);
+  g.fillStyle = "#fff"; g.textAlign = "center"; g.font = "700 96px Quicksand, 'Trebuchet MS', sans-serif"; g.fillText("TypeQuest", 540, 170);
+  g.font = "600 40px Nunito, Arial, sans-serif"; g.fillText("Aprende a escribir más rápido", 540, 235);
+  [["🔥", r.racha, "días de racha"], ["⚡", r.mejor, "ppm de récord"], ["🎓", r.lecc + "/14", "lecciones"]].forEach(([e, v, l], i) => {
+    const y = 300 + i * 232; g.fillStyle = "rgba(255,255,255,.96)"; g.beginPath(); g.roundRect(110, y, 860, 200, 40); g.fill();
+    g.textAlign = "left"; g.fillStyle = "#1f3a5f"; g.font = "100px sans-serif"; g.fillText(e, 150, y + 135);
+    g.font = "700 110px Quicksand, 'Trebuchet MS', sans-serif"; g.fillText(v, 320, y + 135);
+    g.textAlign = "right"; g.fillStyle = "#5b6b7e"; g.font = "600 40px Nunito, Arial, sans-serif"; g.fillText(l, 935, y + 118);
+  });
+  return c;
+}
+const SVG = {
+  ig: '<svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="#fff" stroke-width="2"/><circle cx="12" cy="12" r="4" fill="none" stroke="#fff" stroke-width="2"/><circle cx="17.2" cy="6.8" r="1.2" fill="#fff"/></svg>',
+  wa: '<svg viewBox="0 0 24 24"><path d="M12 3.5a8.5 8.5 0 0 0-7.3 12.8L3.5 20.5l4.3-1.1A8.5 8.5 0 1 0 12 3.5z" fill="none" stroke="#fff" stroke-width="1.9" stroke-linejoin="round"/><path d="M9.2 8.2c.2 2.8 2.6 5.1 5.6 5.7l.9-1.3-1.9-.9-.7.7c-.9-.4-1.7-1.2-2.1-2.1l.7-.7-.9-1.9z" fill="#fff"/></svg>',
+  fb: '<svg viewBox="0 0 24 24"><path fill="#fff" d="M14 8h3V4h-3c-2.8 0-4.5 1.8-4.5 4.5V11H7v4h2.5v6h4v-6H16l.6-4h-3.1V8.7c0-.5.2-.7.5-.7z"/></svg>',
+  x: '<svg viewBox="0 0 24 24"><path d="M4.5 4.5l15 15M19.5 4.5l-15 15" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/></svg>',
+  cp: '<svg viewBox="0 0 24 24"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>',
+};
+const REDES = [["ig", "Instagram"], ["wa", "WhatsApp"], ["fb", "Facebook"], ["x", "X"], ["cp", "Copiar texto"]];
+const shMsg = (t) => { document.getElementById("shMsg").textContent = t; };
+
+async function shAccion(red) {
+  const r = shResumen(), texto = shTexto(r), url = new URL("index.html", location.href).href, e = encodeURIComponent;
+  if (red === "wa") window.open("https://wa.me/?text=" + e(texto + " " + url), "_blank", "noopener");
+  else if (red === "fb") window.open("https://www.facebook.com/sharer/sharer.php?u=" + e(url) + "&quote=" + e(texto), "_blank", "noopener");
+  else if (red === "x") window.open("https://twitter.com/intent/tweet?text=" + e(texto) + "&url=" + e(url), "_blank", "noopener");
+  else if (red === "cp") { try { await navigator.clipboard.writeText(texto + " " + url); shMsg("Texto copiado ✓"); } catch { prompt("Copia este texto:", texto + " " + url); } }
+  else {
+    const blob = await new Promise((ok) => shTarjeta(r).toBlob(ok, "image/png")), archivo = new File([blob], "typequest.png", { type: "image/png" });
+    if (navigator.canShare && navigator.canShare({ files: [archivo] })) { try { await navigator.share({ files: [archivo], text: texto }); return; } catch { return; } }
+    const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = "typequest.png"; a.click();
+    shMsg("Descargué tu tarjeta. Ábrela en Instagram y súbela a tu historia o publicación.");
+  }
+}
+function shInit() {
+  document.getElementById("shImg").src = shTarjeta(shResumen()).toDataURL("image/png");
+  const box = document.getElementById("redes");
+  if (box.children.length) return;
+  REDES.forEach(([id, nombre]) => {
+    const b = document.createElement("button"); b.className = "red " + id; b.innerHTML = SVG[id]; b.title = nombre; b.setAttribute("aria-label", "Compartir en " + nombre);
+    b.onclick = () => shAccion(id); box.append(b);
+  });
+}
+shInit();
+</script>
+<script>
+/* ===== Cuenta: registro, inicio de sesión y cerrar cuenta (se guarda en este navegador) ===== */
+(() => {
+  const K_U = "tq-usuarios", K_S = "tq-sesion";
+  const leer = (k, d) => { try { return JSON.parse(localStorage.getItem(k)) ?? d; } catch { return d; } };
+  const guardar = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch {} };
+  const hexA = (a) => [...a].map((b) => b.toString(16).padStart(2, "0")).join("");
+  async function hash(clave, sal) {
+    const enc = new TextEncoder(), k = await crypto.subtle.importKey("raw", enc.encode(clave), "PBKDF2", false, ["deriveBits"]);
+    return hexA(new Uint8Array(await crypto.subtle.deriveBits({ name: "PBKDF2", salt: enc.encode(sal), iterations: 120000, hash: "SHA-256" }, k, 256)));
+  }
+
+  const st = document.createElement("style");
+  st.textContent = `
+  [data-cuenta]{display:inline-flex;align-items:center;gap:14px;color:#fff;font:600 1rem 'Quicksand','Trebuchet MS',sans-serif}
+  .cq-link{background:none;border:0;color:inherit;font:inherit;cursor:pointer}.cq-link:hover{text-decoration:underline}
+  .cq-btn{background:none;color:inherit;font:inherit;cursor:pointer;border:1.5px solid #fff;border-radius:8px;padding:9px 18px;transition:background .15s,color .15s}
+  .cq-btn:hover{background:#fff;color:#3d8fe0}
+  #cq-dlg{margin:auto;border:0;border-radius:22px;padding:30px;width:min(400px,92vw);color:#1f3a5f;font-family:'Nunito',system-ui,sans-serif;box-shadow:0 24px 60px rgba(20,60,120,.4)}
+  #cq-dlg::backdrop{background:rgba(20,45,85,.6);backdrop-filter:blur(5px)}
+  #cq-dlg[open]{animation:cqabre .35s cubic-bezier(.2,1.2,.4,1)}
+  @keyframes cqabre{from{opacity:0;transform:translateY(24px) scale(.94)}}
+  #cq-dlg h3{font:700 1.7rem 'Quicksand',sans-serif;margin-bottom:16px}
+  #cq-dlg label{display:block;margin-bottom:14px;font-size:.9rem;color:#5b6b7e}
+  #cq-dlg input{display:block;width:100%;margin-top:6px;padding:12px 14px;border:2px solid #cfe3f7;border-radius:10px;font:inherit;color:#1f3a5f}
+  #cq-dlg input:focus{outline:none;border-color:#3d8fe0}
+  #cq-err{min-height:1.4em;margin-bottom:8px;color:#d4392b;font-size:.95rem}
+  #cq-dlg .cq-ok{width:100%;border:0;border-radius:10px;padding:14px;font:700 1.05rem 'Quicksand',sans-serif;color:#5a3d00;cursor:pointer;background:linear-gradient(#fbd36b,#f6c24a);box-shadow:0 4px 0 #d9a52b}
+  #cq-dlg .cq-ok:disabled{opacity:.6}
+  #cq-dlg .cq-sec{display:block;width:100%;margin-top:12px;background:none;border:0;color:#5b6b7e;text-decoration:underline;cursor:pointer;font:inherit}`;
+  document.head.append(st);
+
+  const dlg = document.createElement("dialog");
+  dlg.id = "cq-dlg";
+  dlg.innerHTML = `<form id="cq-form">
+    <h3 id="cq-t"></h3>
+    <label id="cq-lu"></label>
+    <label id="cq-lc" hidden>Correo<input name="correo" type="email" autocomplete="email" maxlength="80"></label>
+    <label>Contraseña<input name="clave" type="password" required minlength="6" autocomplete="current-password"></label>
+    <p id="cq-err" role="alert"></p>
+    <button class="cq-ok" id="cq-b"></button>
+    <button type="button" class="cq-sec" id="cq-sw"></button>
+    <button type="button" class="cq-sec" id="cq-x">Cancelar</button>
+  </form>`;
+  document.body.append(dlg);
+  const $ = (s) => dlg.querySelector(s);
+  let sesion = leer(K_S, null), registro = false;
+
+  const avisar = () => window.dispatchEvent(new CustomEvent("cuenta", { detail: sesion }));
+  function pintar() {
+    document.querySelectorAll("[data-cuenta]").forEach((box) => {
+      box.replaceChildren();
+      const mk = (clase, texto, fn) => { const b = document.createElement("button"); b.className = clase; b.textContent = texto; b.onclick = fn; return b; };
+      if (sesion) box.append(mk("cq-btn", "Cerrar cuenta", () => { sesion = null; try { localStorage.removeItem(K_S); } catch {} pintar(); avisar(); }));
+      else box.append(mk("cq-link", "Iniciar sesión", () => abrir(false)), mk("cq-btn", "Regístrate", () => abrir(true)));
+    });
+  }
+  function abrir(reg) {
+    registro = reg;
+    $("#cq-t").textContent = reg ? "Crea tu cuenta" : "Iniciar sesión";
+    $("#cq-lu").innerHTML = (reg ? "Usuario (3 a 20 letras, números o _)" : "Usuario o correo") + '<input name="usuario" required maxlength="60" autocomplete="username">';
+    $("#cq-lc").hidden = !reg; $("#cq-lc input").required = reg;
+    $("#cq-b").textContent = reg ? "Registrarme" : "Entrar";
+    $("#cq-sw").textContent = reg ? "Ya tengo cuenta" : "¿No tienes cuenta? Regístrate";
+    $("#cq-err").textContent = ""; $("[name=clave]").autocomplete = reg ? "new-password" : "current-password";
+    if (!dlg.open) dlg.showModal();
+  }
+  function entrar(nombre) { sesion = nombre; guardar(K_S, nombre); pintar(); dlg.close(); $("#cq-form").reset(); avisar(); }
+
+  $("#cq-sw").onclick = () => abrir(!registro);
+  $("#cq-x").onclick = () => dlg.close();
+  $("#cq-form").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const f = e.target.elements, usuario = f.usuario.value.trim(), clave = f.clave.value, b = $("#cq-b");
+    b.disabled = true; $("#cq-err").textContent = "";
+    try {
+      if (!(window.crypto && crypto.subtle)) throw new Error("Abre la página con Live Server (o desde localhost) para usar las cuentas.");
+      const lista = leer(K_U, []), min = (t) => t.toLowerCase();
+      if (registro) {
+        const correo = f.correo.value.trim();
+        if (!/^[a-zA-Z0-9_]{3,20}$/.test(usuario)) throw new Error("Usuario: 3 a 20 letras, números o _");
+        if (clave.length < 6) throw new Error("La contraseña necesita 6 caracteres o más");
+        if (lista.some((u) => min(u.usuario) === min(usuario) || min(u.correo) === min(correo))) throw new Error("Ese usuario o correo ya existe");
+        const sal = hexA(crypto.getRandomValues(new Uint8Array(16)));
+        lista.push({ usuario, correo, sal, hash: await hash(clave, sal) }); guardar(K_U, lista);
+        entrar(usuario);
+      } else {
+        const u = lista.find((x) => min(x.usuario) === min(usuario) || min(x.correo) === min(usuario));
+        if (!u || (await hash(clave, u.sal)) !== u.hash) throw new Error("Usuario o contraseña incorrectos");
+        entrar(u.usuario);
+      }
+    } catch (er) { $("#cq-err").textContent = er.message; }
+    b.disabled = false;
+  });
+
+  window.cuentaActual = () => sesion;
+  pintar(); avisar();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TypeQuest · Escribe más rápido</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;700&family=Nunito:wght@400;600&display=swap">
+<style>
+:root{--azul:#3d8fe0;--azul2:#8ecbf5;--tinta:#1f3a5f;--texto:#5b6b7e;--oro:#f6c24a;--oro2:#fbd36b;--q:'Quicksand','Trebuchet MS',sans-serif;--n:'Nunito',system-ui,sans-serif}
+*{box-sizing:border-box;margin:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--n);color:var(--tinta);background:#fff;overflow-x:hidden}
+a{color:inherit}
+:focus-visible{outline:3px solid #fff;outline-offset:3px}
+
+/* Portada azul */
+.hero{position:relative;color:#fff;min-height:100vh;padding:0 0 150px;
+  background:linear-gradient(160deg,var(--azul2) 0%,#5fb0ee 45%,var(--azul) 100%);
+  clip-path:polygon(0 0,100% 0,100% 90%,0 100%)}
+.lluvia{position:absolute;inset:0;overflow:hidden;pointer-events:none}
+.tecla{position:absolute;top:-70px;width:54px;height:54px;display:grid;place-items:center;
+  background:#fff;color:var(--azul);border-radius:14px;font:700 1.6rem var(--q);
+  box-shadow:0 5px 0 #b9d9f5,0 10px 20px rgba(20,60,120,.25);
+  animation:cae var(--dur,6s) linear forwards}
+@keyframes cae{from{transform:translateY(0) rotate(var(--r0))}to{transform:translateY(var(--h)) rotate(var(--r1))}}
+.tecla.pop{animation:pop .35s forwards;background:var(--oro2);color:var(--tinta)}
+@keyframes pop{to{transform:translateY(var(--y)) scale(1.8);opacity:0}}
+
+.wrap{position:relative;width:min(1150px,92vw);margin:0 auto}
+header{display:flex;align-items:center;justify-content:space-between;padding:26px 0}
+.logo{font:700 2rem var(--q);text-decoration:none;letter-spacing:-.02em}
+nav{display:flex;align-items:center;gap:26px;font:600 1.05rem var(--q)}
+nav a{text-decoration:none;opacity:.95}
+nav a:hover{opacity:1;text-decoration:underline}
+.reg{border:1.5px solid #fff;border-radius:8px;padding:10px 20px}
+.reg:hover{background:#fff;color:var(--azul);text-decoration:none}
+
+.intro{padding-top:5vh;max-width:760px}
+h1{font:700 clamp(2.4rem,5.6vw,4rem)/1.12 var(--q);text-shadow:0 2px 18px rgba(20,60,120,.2);min-height:2.3em}
+.cur{display:inline-block;width:3px;height:.95em;background:#fff;margin-left:4px;vertical-align:-.1em;animation:par 1s steps(1) infinite}
+@keyframes par{50%{opacity:0}}
+.lema{font-size:1.22rem;line-height:1.65;margin-top:18px;max-width:42em}
+.pista{margin-top:16px;font-size:.95rem;opacity:.9}
+.pista b{background:rgba(255,255,255,.25);padding:2px 9px;border-radius:6px}
+
+/* Tarjetas */
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:22px;margin-top:46px}
+.card{background:#fff;color:var(--tinta);border-radius:22px;padding:30px;box-shadow:0 18px 40px rgba(20,60,120,.25);display:flex;flex-direction:column;gap:14px;transition:transform .25s}
+.card:hover{transform:translateY(-6px)}
+.card .ico{font-size:2.2rem}
+.card h2{font:700 1.7rem var(--q)}
+.card p{color:var(--texto);line-height:1.55;flex:1}
+.oro{display:block;text-align:center;text-decoration:none;font:700 1rem var(--q);color:#5a3d00;padding:14px;border-radius:10px;
+  background:linear-gradient(var(--oro2),var(--oro));box-shadow:0 4px 0 #d9a52b;transition:transform .12s,box-shadow .12s}
+.oro:hover{transform:translateY(-2px)}
+.oro:active{transform:translateY(4px);box-shadow:0 0 0}
+
+/* Sección blanca */
+.mas{padding:30px 0 90px;text-align:center}
+.mas h2{font:700 clamp(2rem,4.6vw,3.2rem) var(--q);color:var(--azul)}
+.mas>.wrap>p{max-width:44em;margin:16px auto 50px;color:var(--texto);font-size:1.15rem;line-height:1.65}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:22px}
+.tile{padding:28px 22px;border-radius:20px;background:#f2f8ff;text-align:left}
+.tile i{font-style:normal;font-size:2rem;display:block;margin-bottom:10px}
+.tile h3{font:700 1.2rem var(--q);margin-bottom:6px}
+.tile p{color:var(--texto);line-height:1.5;font-size:.98rem}
+.rev{opacity:0;transform:translateY(34px);transition:opacity .8s,transform .8s;transition-delay:var(--d,0s)}
+.rev.v{opacity:1;transform:none}
+footer{background:var(--tinta);color:#c7d6ea;text-align:center;padding:34px 0;font-size:.95rem}
+
+@media(max-width:760px){nav a:not(.reg){display:none}nav{gap:12px}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}.rev{opacity:1;transform:none}}
+
+.ctas{display:flex;gap:14px;flex-wrap:wrap;margin-top:24px}
+.cta{display:inline-block;padding:16px 36px;font-size:1.15rem}
+.cta2{display:inline-block;padding:14px 28px;border:2px solid #fff;border-radius:10px;color:#fff;text-decoration:none;font:700 1.1rem var(--q);transition:background .15s,color .15s,transform .12s}
+.cta2:hover{background:#fff;color:var(--azul);transform:translateY(-2px)}
+</style>
+</head>
+<body>
+
+<section class="hero" id="inicio">
+  <div class="lluvia" id="lluvia" aria-hidden="true"></div>
+  <div class="wrap">
+    <header>
+      <a class="logo" href="#inicio">TypeQuest</a>
+      <nav>
+        <a href="aprender.html">Aprender</a>
+        <a href="velocidad.html">Velocidad</a>
+        <a href="perfil.html">Mi perfil</a>
+        <span data-cuenta></span>
+      </nav>
+    </header>
+
+    <div class="intro">
+      <h1>Escribe más rápido,<br><span id="tw"></span><span class="cur"></span></h1>
+      <p class="lema">TypeQuest fue creada para ayudar a las personas a escribir más rápido y con menos errores. Estudiantes, profesores y equipos de oficina pueden convertir unos minutos de práctica al día en tiempo ahorrado en cada tarea.</p>
+      <div class="ctas"><a class="oro cta" href="aprender.html">▶ Empezar los niveles</a><a class="cta2" href="velocidad.html">⚡ Prueba de velocidad</a><a class="cta2" href="perfil.html">👤 Mi perfil</a></div>
+      <p class="pista">Prueba esto: atrapa las letras que caen pulsando esa tecla <b>A</b> <b>S</b> <b>D</b></p>
+    </div>
+
+    <div class="cards" id="estudiantes">
+      <article class="card">
+        <div class="ico">🎓</div>
+        <h2>Para estudiantes</h2>
+        <p>Termina tareas, trabajos y exámenes en menos tiempo. Aprende a escribir a tu ritmo, sin mirar el teclado.</p>
+        <a class="oro" href="aprender.html">Empieza a escribir hoy »</a>
+      </article>
+      <article class="card">
+        <div class="ico">🍎</div>
+        <h2>Para profesores</h2>
+        <p>Ayuda a tu grupo a ganar soltura con el teclado. Escribir bien facilita el trabajo en todas las materias.</p>
+        <a class="oro" href="aprender.html">Probar los niveles »</a>
+      </article>
+      <article class="card">
+        <div class="ico">💼</div>
+        <h2>Para la oficina</h2>
+        <p>Responde correos, redacta informes y toma notas más rápido. Cinco minutos al día bastan para notar la mejora.</p>
+        <a class="oro" href="aprender.html">Mejorar mi velocidad »</a>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="mas" id="objetivo">
+  <div class="wrap">
+    <h2 class="rev">Para qué fue creada TypeQuest</h2>
+    <p class="rev" style="--d:.1s">Nuestro objetivo es simple: que cualquier persona, en clase o en el trabajo, pueda escribir con soltura y sin mirar el teclado, y así dedicar su tiempo a lo que de verdad importa.</p>
+    <div class="tiles">
+      <div class="tile rev"><i>⏱️</i><h3>Ahorra tiempo</h3><p>Escribir rápido acorta tareas, correos e informes todos los días.</p></div>
+      <div class="tile rev" style="--d:.1s"><i>✅</i><h3>Menos errores</h3><p>Practicar con precisión evita correcciones y trabajo repetido.</p></div>
+      <div class="tile rev" style="--d:.2s"><i>💪</i><h3>Más confianza</h3><p>Sin mirar las teclas, tu atención se queda en tus ideas.</p></div>
+      <div class="tile rev" style="--d:.3s"><i>🌍</i><h3>Para todos</h3><p>Escuela, universidad u oficina: cualquiera puede mejorar.</p></div>
+    </div>
+  </div>
+</section>
+
+<footer>TypeQuest · hecho para ayudarte a escribir más rápido</footer>
+
+<script>
+/* 1) Titular que se escribe solo */
+const frases = ["en clase.", "para enseñar.", "en la oficina.", "sin mirar el teclado."];
+const tw = document.getElementById("tw");
+const reducir = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+if (reducir) {
+  tw.textContent = frases[0];
+} else {
+  let f = 0, i = 0, borrando = false;
+  (function paso() {
+    const frase = frases[f];
+    tw.textContent = frase.slice(0, i);
+    if (!borrando && i === frase.length) { borrando = true; return setTimeout(paso, 1700); }
+    if (borrando && i === 0) { borrando = false; f = (f + 1) % frases.length; return setTimeout(paso, 350); }
+    i += borrando ? -1 : 1;
+    setTimeout(paso, borrando ? 35 : 75);
+  })();
+}
+
+/* 2) Letras que caen: cada vez una tecla distinta del abecedario */
+const lluvia = document.getElementById("lluvia");
+let bolsa = [];
+
+const siguiente = () => {
+  if (!bolsa.length) bolsa = [..."ABCDEFGHIJKLMNOPQRSTUVWXYZ"].sort(() => Math.random() - 0.5);
+  return bolsa.pop();
+};
+
+function soltar() {
+  const t = document.createElement("div");
+  t.className = "tecla";
+  t.textContent = siguiente();
+  t.style.left = 4 + Math.random() * 88 + "%";
+  t.style.setProperty("--h", lluvia.clientHeight + 90 + "px");
+  t.style.setProperty("--r0", (Math.random() * 30 - 15) + "deg");
+  t.style.setProperty("--r1", (Math.random() * 120 - 60) + "deg");
+  t.style.setProperty("--dur", 5 + Math.random() * 3 + "s");
+  lluvia.append(t);
+  t.addEventListener("animationend", () => t.remove());
+}
+
+if (!reducir) { soltar(); setInterval(soltar, 1500); }
+
+/* 3) Atrapa la letra pulsando su tecla */
+addEventListener("keydown", (e) => {
+  if (e.target.closest("input,textarea,dialog") || e.ctrlKey || e.metaKey || e.altKey || e.key.length !== 1) return;
+  const letra = e.key.toUpperCase();
+  const t = [...lluvia.children].find((x) => x.textContent === letra && !x.classList.contains("pop"));
+  if (!t) return;
+  const y = t.getBoundingClientRect().top - lluvia.getBoundingClientRect().top;
+  t.style.setProperty("--y", y + "px");
+  t.classList.add("pop");
+  setTimeout(() => t.remove(), 360);
+});
+
+/* 4) Aparecer al hacer scroll */
+const ob = new IntersectionObserver((es) => es.forEach((e) => {
+  if (e.isIntersecting) { e.target.classList.add("v"); ob.unobserve(e.target); }
+}), { threshold: 0.15 });
+document.querySelectorAll(".rev").forEach((n) => ob.observe(n));
+
+</script>
+<script>
+/* ===== Cuenta: registro, inicio de sesión y cerrar cuenta (se guarda en este navegador) ===== */
+(() => {
+  const K_U = "tq-usuarios", K_S = "tq-sesion";
+  const leer = (k, d) => { try { return JSON.parse(localStorage.getItem(k)) ?? d; } catch { return d; } };
+  const guardar = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch {} };
+  const hexA = (a) => [...a].map((b) => b.toString(16).padStart(2, "0")).join("");
+  async function hash(clave, sal) {
+    const enc = new TextEncoder(), k = await crypto.subtle.importKey("raw", enc.encode(clave), "PBKDF2", false, ["deriveBits"]);
+    return hexA(new Uint8Array(await crypto.subtle.deriveBits({ name: "PBKDF2", salt: enc.encode(sal), iterations: 120000, hash: "SHA-256" }, k, 256)));
+  }
+
+  const st = document.createElement("style");
+  st.textContent = `
+  [data-cuenta]{display:inline-flex;align-items:center;gap:14px;color:#fff;font:600 1rem 'Quicksand','Trebuchet MS',sans-serif}
+  .cq-link{background:none;border:0;color:inherit;font:inherit;cursor:pointer}.cq-link:hover{text-decoration:underline}
+  .cq-btn{background:none;color:inherit;font:inherit;cursor:pointer;border:1.5px solid #fff;border-radius:8px;padding:9px 18px;transition:background .15s,color .15s}
+  .cq-btn:hover{background:#fff;color:#3d8fe0}
+  #cq-dlg{margin:auto;border:0;border-radius:22px;padding:30px;width:min(400px,92vw);color:#1f3a5f;font-family:'Nunito',system-ui,sans-serif;box-shadow:0 24px 60px rgba(20,60,120,.4)}
+  #cq-dlg::backdrop{background:rgba(20,45,85,.6);backdrop-filter:blur(5px)}
+  #cq-dlg[open]{animation:cqabre .35s cubic-bezier(.2,1.2,.4,1)}
+  @keyframes cqabre{from{opacity:0;transform:translateY(24px) scale(.94)}}
+  #cq-dlg h3{font:700 1.7rem 'Quicksand',sans-serif;margin-bottom:16px}
+  #cq-dlg label{display:block;margin-bottom:14px;font-size:.9rem;color:#5b6b7e}
+  #cq-dlg input{display:block;width:100%;margin-top:6px;padding:12px 14px;border:2px solid #cfe3f7;border-radius:10px;font:inherit;color:#1f3a5f}
+  #cq-dlg input:focus{outline:none;border-color:#3d8fe0}
+  #cq-err{min-height:1.4em;margin-bottom:8px;color:#d4392b;font-size:.95rem}
+  #cq-dlg .cq-ok{width:100%;border:0;border-radius:10px;padding:14px;font:700 1.05rem 'Quicksand',sans-serif;color:#5a3d00;cursor:pointer;background:linear-gradient(#fbd36b,#f6c24a);box-shadow:0 4px 0 #d9a52b}
+  #cq-dlg .cq-ok:disabled{opacity:.6}
+  #cq-dlg .cq-sec{display:block;width:100%;margin-top:12px;background:none;border:0;color:#5b6b7e;text-decoration:underline;cursor:pointer;font:inherit}`;
+  document.head.append(st);
+
+  const dlg = document.createElement("dialog");
+  dlg.id = "cq-dlg";
+  dlg.innerHTML = `<form id="cq-form">
+    <h3 id="cq-t"></h3>
+    <label id="cq-lu"></label>
+    <label id="cq-lc" hidden>Correo<input name="correo" type="email" autocomplete="email" maxlength="80"></label>
+    <label>Contraseña<input name="clave" type="password" required minlength="6" autocomplete="current-password"></label>
+    <p id="cq-err" role="alert"></p>
+    <button class="cq-ok" id="cq-b"></button>
+    <button type="button" class="cq-sec" id="cq-sw"></button>
+    <button type="button" class="cq-sec" id="cq-x">Cancelar</button>
+  </form>`;
+  document.body.append(dlg);
+  const $ = (s) => dlg.querySelector(s);
+  let sesion = leer(K_S, null), registro = false;
+
+  const avisar = () => window.dispatchEvent(new CustomEvent("cuenta", { detail: sesion }));
+  function pintar() {
+    document.querySelectorAll("[data-cuenta]").forEach((box) => {
+      box.replaceChildren();
+      const mk = (clase, texto, fn) => { const b = document.createElement("button"); b.className = clase; b.textContent = texto; b.onclick = fn; return b; };
+      if (sesion) box.append(mk("cq-btn", "Cerrar cuenta", () => { sesion = null; try { localStorage.removeItem(K_S); } catch {} pintar(); avisar(); }));
+      else box.append(mk("cq-link", "Iniciar sesión", () => abrir(false)), mk("cq-btn", "Regístrate", () => abrir(true)));
+    });
+  }
+  function abrir(reg) {
+    registro = reg;
+    $("#cq-t").textContent = reg ? "Crea tu cuenta" : "Iniciar sesión";
+    $("#cq-lu").innerHTML = (reg ? "Usuario (3 a 20 letras, números o _)" : "Usuario o correo") + '<input name="usuario" required maxlength="60" autocomplete="username">';
+    $("#cq-lc").hidden = !reg; $("#cq-lc input").required = reg;
+    $("#cq-b").textContent = reg ? "Registrarme" : "Entrar";
+    $("#cq-sw").textContent = reg ? "Ya tengo cuenta" : "¿No tienes cuenta? Regístrate";
+    $("#cq-err").textContent = ""; $("[name=clave]").autocomplete = reg ? "new-password" : "current-password";
+    if (!dlg.open) dlg.showModal();
+  }
+  function entrar(nombre) { sesion = nombre; guardar(K_S, nombre); pintar(); dlg.close(); $("#cq-form").reset(); avisar(); }
+
+  $("#cq-sw").onclick = () => abrir(!registro);
+  $("#cq-x").onclick = () => dlg.close();
+  $("#cq-form").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const f = e.target.elements, usuario = f.usuario.value.trim(), clave = f.clave.value, b = $("#cq-b");
+    b.disabled = true; $("#cq-err").textContent = "";
+    try {
+      if (!(window.crypto && crypto.subtle)) throw new Error("Abre la página con Live Server (o desde localhost) para usar las cuentas.");
+      const lista = leer(K_U, []), min = (t) => t.toLowerCase();
+      if (registro) {
+        const correo = f.correo.value.trim();
+        if (!/^[a-zA-Z0-9_]{3,20}$/.test(usuario)) throw new Error("Usuario: 3 a 20 letras, números o _");
+        if (clave.length < 6) throw new Error("La contraseña necesita 6 caracteres o más");
+        if (lista.some((u) => min(u.usuario) === min(usuario) || min(u.correo) === min(correo))) throw new Error("Ese usuario o correo ya existe");
+        const sal = hexA(crypto.getRandomValues(new Uint8Array(16)));
+        lista.push({ usuario, correo, sal, hash: await hash(clave, sal) }); guardar(K_U, lista);
+        entrar(usuario);
+      } else {
+        const u = lista.find((x) => min(x.usuario) === min(usuario) || min(x.correo) === min(usuario));
+        if (!u || (await hash(clave, u.sal)) !== u.hash) throw new Error("Usuario o contraseña incorrectos");
+        entrar(u.usuario);
+      }
+    } catch (er) { $("#cq-err").textContent = er.message; }
+    b.disabled = false;
+  });
+
+  window.cuentaActual = () => sesion;
+  pintar(); avisar();
+})();
+</script>
+</body>
+</html>
